@@ -6,8 +6,10 @@ import 'theme/MyTheme.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: MyTheme.renkSiyah, // transparent status bar
+    statusBarColor: Colors.black, // transparent status bar
   ));
+  WidgetsFlutterBinding.ensureInitialized();
+
   new Routes();
 }
 

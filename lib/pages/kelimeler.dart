@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/sqflite/database_manager.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
 import 'package:flutter_ingilizce_app/widgets/HeadlineForWidgets.dart';
 import 'package:flutter_ingilizce_app/widgets/KelimeWidget.dart';
@@ -11,6 +12,8 @@ class Kelimeler extends StatefulWidget {
 }
 
 class _KelimelerState extends State<Kelimeler> {
+  DatabaseHelper _databaseHelper = DatabaseHelper.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
