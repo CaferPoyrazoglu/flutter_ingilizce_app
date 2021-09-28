@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/sqflite/db_helper.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
 import 'package:flutter_ingilizce_app/widgets/HeadlineForWidgets.dart';
 
-class KelimeWidget extends StatelessWidget {
+class KelimeWidget extends StatefulWidget {
+  final int id;
   final String text;
   final String text1;
   final String yuzde;
 
-  const KelimeWidget({Key key, this.text, this.text1, this.yuzde})
+  const KelimeWidget({Key key, this.id, this.text, this.text1, this.yuzde})
       : super(key: key);
 
+  @override
+  State<KelimeWidget> createState() => _KelimeWidgetState();
+}
+
+class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -17,9 +24,9 @@ class KelimeWidget extends StatelessWidget {
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => KelimeDialog(
-            en: text,
-            tr: text1,
-            yuzde: "%" + yuzde,
+            en: widget.text,
+            tr: widget.text1,
+            yuzde: "%" + widget.yuzde,
           ),
         );
       },
@@ -41,7 +48,7 @@ class KelimeWidget extends StatelessWidget {
                     Expanded(
                       flex: 14,
                       child: Text(
-                        text,
+                        widget.text,
                         style: TextStyle(
                             fontSize: deviceWidth(context) * 0.8,
                             fontWeight: FontWeight.w600),
@@ -50,9 +57,9 @@ class KelimeWidget extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        "%" + yuzde,
+                        "%" + widget.yuzde,
                         style: TextStyle(
-                            color: belirle(yuzde),
+                            color: belirle(widget.yuzde),
                             fontSize: deviceWidth(context) * 0.8,
                             fontWeight: FontWeight.w600),
                       ),
@@ -60,7 +67,13 @@ class KelimeWidget extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            try {
+                              await delete(widget.id);
+                            } catch (err) {
+                              print("Hata");
+                            }
+                          },
                           icon: Icon(Icons.highlight_remove_rounded)),
                     )
                   ],

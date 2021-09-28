@@ -53,6 +53,7 @@ class _KelimelerState extends State<Kelimeler> {
                   itemCount: tumKelimeler.length,
                   itemBuilder: (context, index) {
                     return KelimeWidget(
+                      id: tumKelimeler[index].id,
                       text: tumKelimeler[index].en,
                       text1: tumKelimeler[index].tr,
                       yuzde: yuzdeHesapla(tumKelimeler[index].dogru,
