@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/sqflite/KelimelerModel.dart';
+import 'package:flutter_ingilizce_app/sqflite/db_helper.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
 import 'package:flutter_ingilizce_app/widgets/HeadlineForWidgets.dart';
 import 'package:flutter_ingilizce_app/widgets/KelimeWidget.dart';
@@ -11,30 +13,55 @@ class Kelimeler extends StatefulWidget {
 }
 
 class _KelimelerState extends State<Kelimeler> {
+  //DB
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+  // ignore: deprecated_member_use
+  List<KelimelerModel> tumKelimeler = new List<KelimelerModel>();
+  //Modal
+  var _enController = TextEditingController();
+  var _trController = TextEditingController();
+
+  void getNotes() async {
+    var notesFuture = _databaseHelper.getAllKelime();
+    await notesFuture.then((data) {
+      setState(() {
+        this.tumKelimeler = data;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getNotes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyTheme.renkBeyaz,
-      body: ListView(
-        padding: MyTheme.myPadding,
-        children: [
-          baslikGetir(),
-          KelimeWidget(
-            text: "electronic",
-            text1: "elektronik",
-            yuzde: "%92",
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Padding(
+          padding: MyTheme.myPadding,
+          child: Column(
+            children: <Widget>[
+              baslikGetir(),
+              ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: tumKelimeler.length,
+                  itemBuilder: (context, index) {
+                    return KelimeWidget(
+                      text: tumKelimeler[index].en,
+                      text1: tumKelimeler[index].tr,
+                      yuzde: yuzdeHesapla(tumKelimeler[index].dogru,
+                          tumKelimeler[index].yanlis),
+                    );
+                  }),
+            ],
           ),
-          KelimeWidget(
-            text: "apple",
-            text1: "elma",
-            yuzde: "%55",
-          ),
-          KelimeWidget(
-            text: "congratulations",
-            text1: "tebrikler",
-            yuzde: "%76",
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -85,6 +112,7 @@ class _KelimelerState extends State<Kelimeler> {
                         child: Image.asset("assets/images/en.png"),
                       ),
                       title: new TextField(
+                        controller: _enController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'EN',
@@ -97,6 +125,7 @@ class _KelimelerState extends State<Kelimeler> {
                         child: Image.asset("assets/images/tr.png"),
                       ),
                       title: new TextField(
+                        controller: _trController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'TR',
@@ -113,7 +142,12 @@ class _KelimelerState extends State<Kelimeler> {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               elevation: 0, primary: Colors.transparent),
-                          onPressed: () {},
+                          onPressed: () {
+                            _addNote(KelimelerModel(
+                                _enController.text, _trController.text, 5, 2));
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                          },
                           child: HeadlineForWidgets(
                             fSize: 0.8,
                             myFW: FontWeight.w600,
@@ -129,5 +163,23 @@ class _KelimelerState extends State<Kelimeler> {
             ),
           );
         });
+  }
+
+  void _addNote(KelimelerModel km) async {
+    await _databaseHelper.insert(km);
+
+    setState(() {
+      getNotes();
+    });
+  }
+
+  yuzdeHesapla(int dogru, int yanlis) {
+    int toplam = dogru + yanlis;
+    double yuzde = (dogru / toplam) * 100;
+    String tmp = yuzde.toStringAsFixed(0);
+    if (tmp == "NaN") {
+      tmp = "0";
+    }
+    return tmp;
   }
 }

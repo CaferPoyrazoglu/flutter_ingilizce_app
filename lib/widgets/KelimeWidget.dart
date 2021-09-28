@@ -19,14 +19,14 @@ class KelimeWidget extends StatelessWidget {
           builder: (BuildContext context) => KelimeDialog(
             en: text,
             tr: text1,
-            yuzde: yuzde,
+            yuzde: "%" + yuzde,
           ),
         );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 4.0),
         child: Container(
-          height: deviceHeight(context) * 0.075,
+          height: deviceHeight(context) * 0.1,
           decoration: BoxDecoration(
               border: MyTheme.myBorder,
               boxShadow: [MyTheme.myShadow],
@@ -35,24 +35,34 @@ class KelimeWidget extends StatelessWidget {
           child: Padding(
             padding: MyTheme.myPadding,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      text,
-                      style: TextStyle(
-                          fontSize: deviceWidth(context) * 0.8,
-                          fontWeight: FontWeight.w600),
+                    Expanded(
+                      flex: 14,
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                            fontSize: deviceWidth(context) * 0.8,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
-                    Text(
-                      yuzde,
-                      style: TextStyle(
-                          fontSize: deviceWidth(context) * 0.8,
-                          fontWeight: FontWeight.w600),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "%" + yuzde,
+                        style: TextStyle(
+                            color: belirle(yuzde),
+                            fontSize: deviceWidth(context) * 0.8,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
+                    Expanded(
+                      flex: 2,
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.highlight_remove_rounded)),
+                    )
                   ],
                 )
               ],
@@ -61,6 +71,19 @@ class KelimeWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  belirle(String yuzde) {
+    double tmp = double.parse(yuzde);
+
+    if (0 <= tmp && tmp < 25) {
+      return Colors.red[300];
+    } else if (26 <= tmp && tmp < 50) {
+      return Colors.orange;
+    } else if (51 <= tmp && tmp < 75) {
+      return Colors.yellow;
+    } else
+      return Colors.green;
   }
 }
 
