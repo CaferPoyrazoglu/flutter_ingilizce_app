@@ -24,7 +24,7 @@ class DatabaseHelper {
     await db.execute('''
           CREATE TABLE Kelimeler (
             id INTEGER PRIMARY KEY,
-            en TEXT NOT NULL type UNIQUE,
+            en TEXT NOT NULL UNIQUE,
             tr TEXT NOT NULL,
             dogru INTEGER,
             yanlis INTEGER 
