@@ -12,15 +12,15 @@ class MyTheme {
   static const EdgeInsetsGeometry myPadding = EdgeInsets.all(13.0);
   static const double myPaddingOnly = 13.0;
   //RADIUS
-  static const BorderRadius myRadius = BorderRadius.all(Radius.circular(8));
-  static const Radius myRadiusOnly = Radius.circular(8);
+  static const BorderRadius myRadius = BorderRadius.all(Radius.circular(16));
+  static const Radius myRadiusOnly = Radius.circular(16);
   //BORDER
-  static Border myBorder = Border.all(color: Colors.grey[400], width: 0.3);
+  static Border myBorder = Border.all(color: Colors.grey[400], width: 0.4);
   //SHADOW
   static BoxShadow myShadow = BoxShadow(
-    color: Colors.grey[300],
+    color: Colors.grey[200],
     offset: Offset(0.0, 0.0), //(x,y)
-    blurRadius: 5.5,
+    blurRadius: 2.5,
   );
   //COLORS
   static const Color renk1 = Color(0xFF069a9c);

@@ -40,14 +40,18 @@ class _KelimelerState extends State<Kelimeler> {
     var tumList = Provider.of<KelimelerProvider>(context);
     return Scaffold(
       backgroundColor: MyTheme.renkBeyaz,
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Padding(
-          padding: MyTheme.myPadding,
-          child: Column(
-            children: <Widget>[
-              baslikGetir(),
-              ListView.builder(
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: MyTheme.myPaddingOnly * 0.7,
+            horizontal: MyTheme.myPaddingOnly),
+        child: Column(
+          children: [
+            SizedBox(
+              height: deviceHeight(context) * 0.05,
+            ),
+            baslikGetir(),
+            Expanded(
+              child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: tumList.kelimeList.length,
@@ -60,34 +64,31 @@ class _KelimelerState extends State<Kelimeler> {
                           tumList.kelimeList[index].yanlis),
                     );
                   }),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Padding baslikGetir() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: MyTheme.myPaddingOnly * 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          HeadlineForWidgets(
-            text: "Kelimeler",
-            myFW: FontWeight.w600,
-            fSize: 1.25,
-          ),
-          IconButton(
-              onPressed: () {
-                showModal();
-              },
-              icon: Icon(
-                Icons.add,
-                size: 32,
-              ))
-        ],
-      ),
+  Row baslikGetir() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        HeadlineForWidgets(
+          text: "Kelimeler",
+          myFW: FontWeight.w600,
+          fSize: 1.25,
+        ),
+        IconButton(
+            onPressed: () {
+              showModal();
+            },
+            icon: Icon(
+              Icons.add,
+              size: 32,
+            ))
+      ],
     );
   }
 
