@@ -32,21 +32,23 @@ class _RouteScreenState extends State<RouteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: bodyGetir(), bottomNavigationBar: bottomNavBarGetir(context));
+        backgroundColor: MyTheme.renkArkaplan,
+        body: bodyGetir(),
+        bottomNavigationBar: bottomNavBarGetir(context));
   }
 
   SizedBox bottomNavBarGetir(BuildContext context) {
     return SizedBox(
       height: MyTheme.appNavHeight,
       child: Container(
-        decoration: BoxDecoration(),
+        decoration: BoxDecoration(color: Colors.transparent),
         child: BottomNavyBar(
           animationDuration: Duration(milliseconds: 250),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          backgroundColor: MyTheme.renk1,
+          backgroundColor: Colors.transparent,
           selectedIndex: _selectedPageIndex,
           showElevation: false,
-          itemCornerRadius: 8,
+          itemCornerRadius: 16,
           curve: Curves.easeIn,
           onItemSelected: (selectedPageIndex) {
             setState(() {
@@ -66,7 +68,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icons.menu_book_rounded,
               ),
               title: Text('Kelimeler'),
-              activeColor: MyTheme.renk4,
+              activeColor: MyTheme.renkBeyaz,
               textAlign: TextAlign.center,
             ),
             BottomNavyBarItem(
@@ -74,7 +76,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icons.create_rounded,
               ),
               title: Text('Quiz'),
-              activeColor: MyTheme.renk4,
+              activeColor: MyTheme.renkBeyaz,
               textAlign: TextAlign.center,
             ),
           ],

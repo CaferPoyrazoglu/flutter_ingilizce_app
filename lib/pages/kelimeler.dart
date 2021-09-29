@@ -39,7 +39,7 @@ class _KelimelerState extends State<Kelimeler> {
   Widget build(BuildContext context) {
     var tumList = Provider.of<KelimelerProvider>(context);
     return Scaffold(
-      backgroundColor: MyTheme.renk2,
+      backgroundColor: MyTheme.renkArkaplan,
       body: Padding(
         padding: EdgeInsets.symmetric(
             vertical: MyTheme.myPaddingOnly * 0.7,

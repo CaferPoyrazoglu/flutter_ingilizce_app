@@ -23,19 +23,20 @@ class MyTheme {
     blurRadius: 4.5,
   );
   //COLORS
-  static const Color renk1 = Color(0xFF082032);
-  static const Color renk2 = Color(0xFF2C394B);
-  static const Color renk3 = Color(0xFF334756);
-  static const Color renk4 = Color(0xFFFF4C29);
+  static const Color renkAna = Color(0xFF2D46B9);
+  static const Color renkArkaplan = Color(0xFF1E3163);
 
-  static const Color renkBeyaz = Color(0xFFEFEFEF);
+  static const Color renkBeyaz = Color(0xFFffffff);
   static const Color renkSiyah = Color(0xFF242431);
 
   //GRADIENTS
-  static const LinearGradient myGrad1 = LinearGradient(
-      begin: Alignment.centerRight,
-      end: Alignment.centerLeft,
-      colors: [Color(0xFF0071DF), Color(0xFF003973)]);
+  /*static const LinearGradient myGrad1 = LinearGradient(
+      begin: Alignment.topRight,
+      end: Alignment.bottomLeft,
+      colors: [
+        Color(0xFFE0352D),
+        Color(0xFFB30D21),
+      ]);*/
   //SIZES
   static const double appNavHeight = 55;
 }

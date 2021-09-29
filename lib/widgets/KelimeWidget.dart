@@ -38,7 +38,7 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
         child: Container(
           height: deviceHeight(context) * 0.08,
           decoration: BoxDecoration(
-              color: MyTheme.renk3, borderRadius: MyTheme.myRadius),
+              color: MyTheme.renkAna, borderRadius: MyTheme.myRadius),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
             child: Column(
@@ -48,7 +48,7 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
                 Text(
                   widget.text,
                   style: TextStyle(
-                      color: MyTheme.renk4,
+                      color: MyTheme.renkBeyaz,
                       fontSize: deviceWidth(context) * 0.8,
                       fontWeight: FontWeight.w600),
                 ),
