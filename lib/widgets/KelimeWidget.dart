@@ -74,7 +74,7 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
                               await delete(widget.id);
                               Provider.of<KelimelerProvider>(context,
                                       listen: false)
-                                  .kelimeSil(widget.id);
+                                  .kelimeSil(widget.text);
                             } catch (err) {
                               print("err");
                             }

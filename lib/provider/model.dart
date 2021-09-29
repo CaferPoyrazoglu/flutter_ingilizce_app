@@ -14,8 +14,8 @@ class KelimelerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void kelimeSil(int index) {
-    this.kelimeList.removeWhere((element) => element.id == index);
+  void kelimeSil(String tmp) {
+    this.kelimeList.removeWhere((element) => element.en == tmp);
     notifyListeners();
   }
 }
