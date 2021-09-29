@@ -43,7 +43,7 @@ class _RouteScreenState extends State<RouteScreen> {
         child: BottomNavyBar(
           animationDuration: Duration(milliseconds: 250),
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          backgroundColor: MyTheme.renkBeyaz,
+          backgroundColor: MyTheme.renk1,
           selectedIndex: _selectedPageIndex,
           showElevation: false,
           itemCornerRadius: 8,
@@ -66,7 +66,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icons.menu_book_rounded,
               ),
               title: Text('Kelimeler'),
-              activeColor: MyTheme.renkSiyah,
+              activeColor: MyTheme.renk4,
               textAlign: TextAlign.center,
             ),
             BottomNavyBarItem(
@@ -74,7 +74,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 Icons.create_rounded,
               ),
               title: Text('Quiz'),
-              activeColor: MyTheme.renkSiyah,
+              activeColor: MyTheme.renk4,
               textAlign: TextAlign.center,
             ),
           ],

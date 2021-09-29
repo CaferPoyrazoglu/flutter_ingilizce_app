@@ -18,16 +18,17 @@ class MyTheme {
   static Border myBorder = Border.all(color: Colors.grey[400], width: 0.4);
   //SHADOW
   static BoxShadow myShadow = BoxShadow(
-    color: Colors.grey[200],
+    color: Colors.grey[400],
     offset: Offset(0.0, 0.0), //(x,y)
-    blurRadius: 2.5,
+    blurRadius: 4.5,
   );
   //COLORS
-  static const Color renk1 = Color(0xFF069a9c);
-  static const Color renk2 = Color(0xFF093339);
-  static const Color renk3 = Color(0xFF88b6b9);
-  static const Color renk4 = Color(0xFFa77555);
-  static const Color renkBeyaz = Colors.white;
+  static const Color renk1 = Color(0xFF082032);
+  static const Color renk2 = Color(0xFF2C394B);
+  static const Color renk3 = Color(0xFF334756);
+  static const Color renk4 = Color(0xFFFF4C29);
+
+  static const Color renkBeyaz = Color(0xFFEFEFEF);
   static const Color renkSiyah = Color(0xFF242431);
 
   //GRADIENTS

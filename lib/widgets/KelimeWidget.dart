@@ -26,6 +26,7 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
         showDialog<String>(
           context: context,
           builder: (BuildContext context) => KelimeDialog(
+            id: widget.id,
             en: widget.text,
             tr: widget.text1,
             yuzde: "%" + widget.yuzde,
@@ -33,14 +34,11 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
         );
       },
       child: Padding(
-        padding: EdgeInsetsDirectional.only(bottom: 8.0),
+        padding: EdgeInsetsDirectional.only(bottom: 16.0),
         child: Container(
           height: deviceHeight(context) * 0.08,
           decoration: BoxDecoration(
-              border: MyTheme.myBorder,
-              boxShadow: [MyTheme.myShadow],
-              color: MyTheme.renkBeyaz,
-              borderRadius: MyTheme.myRadius),
+              color: MyTheme.renk3, borderRadius: MyTheme.myRadius),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
             child: Column(
@@ -50,6 +48,7 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
                 Text(
                   widget.text,
                   style: TextStyle(
+                      color: MyTheme.renk4,
                       fontSize: deviceWidth(context) * 0.8,
                       fontWeight: FontWeight.w600),
                 ),
@@ -76,7 +75,7 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
 }
 
 // ignore: must_be_immutable
-class KelimeDialog extends StatelessWidget {
+class KelimeDialog extends StatelessWidget with DatabaseHelper {
   final int id;
   final String en;
   final String tr;
@@ -85,16 +84,15 @@ class KelimeDialog extends StatelessWidget {
   KelimeDialog({Key key, this.id, this.en, this.tr, this.yuzde})
       : super(key: key);
 
-  DatabaseHelper db = DatabaseHelper();
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: MyTheme.myRadius),
       actions: [
         IconButton(
             onPressed: () async {
               try {
-                await db.delete(id);
+                await delete(id);
                 Provider.of<KelimelerProvider>(context, listen: false)
                     .kelimeSil(en);
                 Navigator.of(context).pop();
