@@ -10,8 +10,17 @@ class KelimeWidget extends StatefulWidget {
   final String text;
   final String text1;
   final String yuzde;
+  final int deger;
+  final int sonEleman;
 
-  const KelimeWidget({Key key, this.id, this.text, this.text1, this.yuzde})
+  const KelimeWidget(
+      {Key key,
+      this.id,
+      this.text,
+      this.text1,
+      this.yuzde,
+      this.deger,
+      this.sonEleman})
       : super(key: key);
 
   @override
@@ -34,11 +43,13 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
         );
       },
       child: Padding(
-        padding: EdgeInsetsDirectional.only(bottom: 16.0),
+        padding: EdgeInsetsDirectional.only(bottom: 0),
         child: Container(
           height: deviceHeight(context) * 0.08,
           decoration: BoxDecoration(
-              color: MyTheme.renkAna, borderRadius: MyTheme.myRadius),
+              border: MyTheme.myBorder,
+              color: MyTheme.renkAna,
+              borderRadius: radBelirle(widget.deger, widget.sonEleman)),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
             child: Column(
@@ -58,6 +69,18 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
         ),
       ),
     );
+  }
+
+  radBelirle(int deger, int sonEleman) {
+    if (deger == 0) {
+      return BorderRadius.only(
+          topLeft: MyTheme.myRadiusOnly, topRight: MyTheme.myRadiusOnly);
+    } else if (deger == sonEleman - 1) {
+      return BorderRadius.only(
+          bottomLeft: MyTheme.myRadiusOnly, bottomRight: MyTheme.myRadiusOnly);
+    } else {
+      return MyTheme.myRadius * 0;
+    }
   }
 
   belirle(String yuzde) {

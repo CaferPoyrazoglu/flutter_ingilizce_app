@@ -60,8 +60,12 @@ class _KelimelerState extends State<Kelimeler> {
                       id: tumList.kelimeList[index].id,
                       text: tumList.kelimeList[index].en,
                       text1: tumList.kelimeList[index].tr,
-                      yuzde: yuzdeHesapla(tumList.kelimeList[index].dogru,
-                          tumList.kelimeList[index].yanlis),
+                      yuzde: yuzdeHesapla(
+                        tumList.kelimeList[index].dogru,
+                        tumList.kelimeList[index].yanlis,
+                      ),
+                      deger: index,
+                      sonEleman: tumList.kelimeList.length,
                     );
                   }),
             ),
@@ -96,88 +100,132 @@ class _KelimelerState extends State<Kelimeler> {
 
   showModal() {
     showModalBottomSheet(
+        backgroundColor: Colors.transparent,
         isScrollControlled: true,
         context: context,
         builder: (context) {
-          return Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Padding(
-              padding: MyTheme.myPadding,
-              child: GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset("assets/images/en.png"),
-                      ),
-                      title: new TextField(
-                        controller: _enController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'EN',
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset("assets/images/tr.png"),
-                      ),
-                      title: new TextField(
-                        controller: _trController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'TR',
-                        ),
-                      ),
-                    ),
-                    ListTile(
-                      title: Container(
-                        decoration: BoxDecoration(
-                            border: MyTheme.myBorder,
-                            boxShadow: [MyTheme.myShadow],
-                            color: MyTheme.renkBeyaz,
-                            borderRadius: MyTheme.myRadius),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0, primary: Colors.transparent),
-                          onPressed: () async {
-                            try {
-                              await _databaseHelper.insert(KelimelerModel(
-                                  _enController.text,
-                                  _trController.text,
-                                  0,
-                                  0));
-                              Provider.of<KelimelerProvider>(context,
-                                      listen: false)
-                                  .kelimeEkle(KelimelerModel(_enController.text,
-                                      _trController.text, 0, 0));
-
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
-                            } catch (err) {
-                              print(err);
-                            }
-                          },
-                          child: HeadlineForWidgets(
-                            fSize: 0.8,
-                            myFW: FontWeight.w600,
-                            myColor: MyTheme.renkSiyah,
-                            text: "Kaydet",
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter mystate) {
+            return Container(
+              decoration: BoxDecoration(
+                  color: MyTheme.renkAna,
+                  borderRadius: BorderRadius.only(
+                      topLeft: MyTheme.myRadiusOnly,
+                      topRight: MyTheme.myRadiusOnly)),
+              child: Padding(
+                padding: MediaQuery.of(context).viewInsets,
+                child: Padding(
+                  padding: MyTheme.myPadding,
+                  child: GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset("assets/images/en.png"),
+                          ),
+                          title: new TextField(
+                            style: TextStyle(
+                              color: MyTheme.renkBeyaz,
+                            ),
+                            controller: _enController,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: MyTheme.renkArkaplan)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: MyTheme.renkArkaplan)),
+                              fillColor: MyTheme.renkBeyaz,
+                              focusColor: MyTheme.renkBeyaz,
+                              hoverColor: MyTheme.renkBeyaz,
+                              labelStyle: TextStyle(
+                                color: MyTheme.renkBeyaz,
+                              ),
+                              labelText: 'EN',
+                            ),
                           ),
                         ),
-                      ),
+                        ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset("assets/images/tr.png"),
+                          ),
+                          title: new TextField(
+                            style: TextStyle(
+                              color: MyTheme.renkBeyaz,
+                            ),
+                            controller: _trController,
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: MyTheme.renkArkaplan)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: MyTheme.renkArkaplan)),
+                              fillColor: MyTheme.renkBeyaz,
+                              focusColor: MyTheme.renkBeyaz,
+                              hoverColor: MyTheme.renkBeyaz,
+                              labelStyle: TextStyle(
+                                color: MyTheme.renkBeyaz,
+                              ),
+                              labelText: 'TR',
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          title: Container(
+                            decoration: BoxDecoration(
+                                color: MyTheme.renkArkaplan,
+                                borderRadius: MyTheme.myRadius),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  elevation: 0, primary: Colors.transparent),
+                              onPressed: () async {
+                                try {
+                                  await _databaseHelper.insert(KelimelerModel(
+                                      _enController.text,
+                                      _trController.text,
+                                      0,
+                                      0));
+                                  Provider.of<KelimelerProvider>(context,
+                                          listen: false)
+                                      .kelimeEkle(KelimelerModel(
+                                          _enController.text,
+                                          _trController.text,
+                                          0,
+                                          0));
+                                  mystate(() {
+                                    _enController.text = "";
+                                    _trController.text = "";
+                                  });
+
+                                  Navigator.of(context)
+                                      .popUntil((route) => route.isFirst);
+                                } catch (err) {
+                                  print(err);
+                                }
+                              },
+                              child: HeadlineForWidgets(
+                                fSize: 0.8,
+                                myFW: FontWeight.w600,
+                                myColor: MyTheme.renkBeyaz,
+                                text: "Kaydet",
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          });
         });
   }
 

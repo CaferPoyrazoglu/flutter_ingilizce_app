@@ -15,7 +15,7 @@ class MyTheme {
   static const BorderRadius myRadius = BorderRadius.all(Radius.circular(16));
   static const Radius myRadiusOnly = Radius.circular(16);
   //BORDER
-  static Border myBorder = Border.all(color: Colors.grey[400], width: 0.4);
+  static Border myBorder = Border.all(color: renkAna, width: 0.5);
   //SHADOW
   static BoxShadow myShadow = BoxShadow(
     color: Colors.grey[400],
