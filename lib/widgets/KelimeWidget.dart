@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/provider/model.dart';
 import 'package:flutter_ingilizce_app/sqflite/db_helper.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
 import 'package:flutter_ingilizce_app/widgets/HeadlineForWidgets.dart';
+import 'package:provider/provider.dart';
 
 class KelimeWidget extends StatefulWidget {
   final int id;
@@ -70,8 +72,11 @@ class _KelimeWidgetState extends State<KelimeWidget> with DatabaseHelper {
                           onPressed: () async {
                             try {
                               await delete(widget.id);
+                              Provider.of<KelimelerProvider>(context,
+                                      listen: false)
+                                  .kelimeSil(widget.id);
                             } catch (err) {
-                              print("Hata");
+                              print("err");
                             }
                           },
                           icon: Icon(Icons.highlight_remove_rounded)),

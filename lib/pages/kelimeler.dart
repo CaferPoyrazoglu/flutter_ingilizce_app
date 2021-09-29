@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/provider/model.dart';
 import 'package:flutter_ingilizce_app/sqflite/KelimelerModel.dart';
 import 'package:flutter_ingilizce_app/sqflite/db_helper.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
 import 'package:flutter_ingilizce_app/widgets/HeadlineForWidgets.dart';
 import 'package:flutter_ingilizce_app/widgets/KelimeWidget.dart';
+import 'package:provider/provider.dart';
 
 class Kelimeler extends StatefulWidget {
   const Kelimeler({Key key}) : super(key: key);
@@ -16,7 +18,6 @@ class _KelimelerState extends State<Kelimeler> {
   //DB
   DatabaseHelper _databaseHelper = DatabaseHelper();
   // ignore: deprecated_member_use
-  List<KelimelerModel> tumKelimeler = new List<KelimelerModel>();
   //Modal
   var _enController = TextEditingController();
   var _trController = TextEditingController();
@@ -24,9 +25,7 @@ class _KelimelerState extends State<Kelimeler> {
   void getNotes() async {
     var notesFuture = _databaseHelper.getAllKelime();
     await notesFuture.then((data) {
-      setState(() {
-        this.tumKelimeler = data;
-      });
+      Provider.of<KelimelerProvider>(context, listen: false).esitle(data);
     });
   }
 
@@ -38,6 +37,7 @@ class _KelimelerState extends State<Kelimeler> {
 
   @override
   Widget build(BuildContext context) {
+    var tumList = Provider.of<KelimelerProvider>(context);
     return Scaffold(
       backgroundColor: MyTheme.renkBeyaz,
       body: SingleChildScrollView(
@@ -50,14 +50,14 @@ class _KelimelerState extends State<Kelimeler> {
               ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: tumKelimeler.length,
+                  itemCount: tumList.kelimeList.length,
                   itemBuilder: (context, index) {
                     return KelimeWidget(
-                      id: tumKelimeler[index].id,
-                      text: tumKelimeler[index].en,
-                      text1: tumKelimeler[index].tr,
-                      yuzde: yuzdeHesapla(tumKelimeler[index].dogru,
-                          tumKelimeler[index].yanlis),
+                      id: tumList.kelimeList[index].id,
+                      text: tumList.kelimeList[index].en,
+                      text1: tumList.kelimeList[index].tr,
+                      yuzde: yuzdeHesapla(tumList.kelimeList[index].dogru,
+                          tumList.kelimeList[index].yanlis),
                     );
                   }),
             ],
@@ -145,13 +145,20 @@ class _KelimelerState extends State<Kelimeler> {
                               elevation: 0, primary: Colors.transparent),
                           onPressed: () async {
                             try {
-                              await _addNote(KelimelerModel(_enController.text,
-                                  _trController.text, 0, 0));
+                              await _databaseHelper.insert(KelimelerModel(
+                                  _enController.text,
+                                  _trController.text,
+                                  0,
+                                  0));
+                              Provider.of<KelimelerProvider>(context,
+                                      listen: false)
+                                  .kelimeEkle(KelimelerModel(_enController.text,
+                                      _trController.text, 0, 0));
 
                               Navigator.of(context)
                                   .popUntil((route) => route.isFirst);
                             } catch (err) {
-                              showAlertDialog(context);
+                              print(err);
                             }
                           },
                           child: HeadlineForWidgets(
@@ -181,7 +188,7 @@ class _KelimelerState extends State<Kelimeler> {
 
     AlertDialog alert = AlertDialog(
       title: Text("Hata"),
-      content: Text("Aynı kelime birden fazla eklenemez"),
+      content: Text("HATA"),
       actions: [
         continueButton,
       ],
@@ -194,16 +201,6 @@ class _KelimelerState extends State<Kelimeler> {
         return alert;
       },
     );
-  }
-
-  _addNote(KelimelerModel km) async {
-    var tmp = await _databaseHelper.insert(km);
-
-    setState(() {
-      getNotes();
-    });
-
-    return tmp;
   }
 
   yuzdeHesapla(int dogru, int yanlis) {

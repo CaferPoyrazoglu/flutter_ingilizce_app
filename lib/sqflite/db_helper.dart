@@ -44,6 +44,7 @@ class DatabaseHelper {
   Future<int> insert(KelimelerModel km) async {
     Database db = await this.database;
     var result = await db.insert("$_tableName", km.toMap());
+
     return result;
   }
 
