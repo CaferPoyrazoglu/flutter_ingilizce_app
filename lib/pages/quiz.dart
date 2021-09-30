@@ -1,6 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/provider/model.dart';
+import 'package:flutter_ingilizce_app/sqflite/KelimelerModel.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
 import 'package:flutter_ingilizce_app/widgets/HeadlineForWidgets.dart';
+import 'package:provider/provider.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({Key key}) : super(key: key);
@@ -10,8 +14,21 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  //DatabaseHelper _databaseHelper = DatabaseHelper();
+  List<KelimelerModel> tumList;
+  final _random = new Random();
+  int soruIndex;
+  int dogruCevapIndex;
+  String dogruEN;
+  String dogruTR;
+
   @override
   Widget build(BuildContext context) {
+    tumList = Provider.of<KelimelerProvider>(context).kelimeList;
+    soruIndex = _random.nextInt(tumList.length);
+    dogruCevapIndex = _random.nextInt(4);
+    dogruEN = tumList[soruIndex].en;
+    dogruTR = tumList[soruIndex].tr;
     return Scaffold(
       backgroundColor: MyTheme.renkArkaplan,
       body: Padding(
@@ -24,10 +41,102 @@ class _QuizState extends State<Quiz> {
               height: deviceHeight(context) * 0.05,
             ),
             baslikGetir(),
+            SizedBox(
+              height: 16,
+            ),
+            Column(
+              children: [
+                Container(
+                  height: deviceHeight(context) * 0.25,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: MyTheme.myRadius,
+                    color: MyTheme.renkBeyaz,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [HeadlineForWidgets(text: dogruEN)],
+                  ),
+                ),
+                // secenekGetir(context, "köpek"),
+                for (int i = 0; i < 4; i++)
+                  if (i == dogruCevapIndex)
+                    dogruTRGetir(context, dogruTR)
+                  else
+                    secenekGetir(
+                      context,
+                    )
+              ],
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Padding dogruTRGetir(BuildContext context, String dogruTR) {
+    return Padding(
+      padding: EdgeInsets.only(top: 14),
+      child: Container(
+        height: deviceHeight(context) * 0.09,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          borderRadius: MyTheme.myRadius,
+          color: MyTheme.renkAna,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
+              child: HeadlineForWidgets(
+                text: dogruTR,
+                myColor: MyTheme.renkBeyaz,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding secenekGetir(BuildContext context) {
+    /*String dogru = tumList.kelimeList[soruIndex].tr;
+    String rastgele =
+        tumList.kelimeList[_random.nextInt(tumList.kelimeList.length)].tr;*/
+    return Padding(
+      padding: EdgeInsets.only(top: 14),
+      child: Container(
+        height: deviceHeight(context) * 0.09,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          borderRadius: MyTheme.myRadius,
+          color: MyTheme.renkAna,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
+              child: HeadlineForWidgets(
+                text: rastgeleGetir(),
+                myColor: MyTheme.renkBeyaz,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  rastgeleGetir() {
+    tumList.removeWhere((element) => element.en == dogruEN);
+    String temp = tumList[_random.nextInt(tumList.length)].tr;
+    tumList.removeWhere((element) => element.tr == temp);
+    return temp;
   }
 
   Row baslikGetir() {
