@@ -108,7 +108,7 @@ class _KelimelerState extends State<Kelimeler> {
               builder: (BuildContext context, StateSetter mystate) {
             return Container(
               decoration: BoxDecoration(
-                  color: MyTheme.renkAna,
+                  color: MyTheme.renkArkaplan,
                   borderRadius: BorderRadius.only(
                       topLeft: MyTheme.myRadiusOnly,
                       topRight: MyTheme.myRadiusOnly)),
@@ -180,7 +180,7 @@ class _KelimelerState extends State<Kelimeler> {
                         ListTile(
                           title: Container(
                             decoration: BoxDecoration(
-                                color: MyTheme.renkArkaplan,
+                                color: MyTheme.renkAna,
                                 borderRadius: MyTheme.myRadius),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(

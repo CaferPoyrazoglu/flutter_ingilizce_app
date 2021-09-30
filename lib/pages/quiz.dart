@@ -40,6 +40,13 @@ class _QuizState extends State<Quiz> {
           myFW: FontWeight.w600,
           fSize: 1.25,
         ),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.add,
+              color: Colors.transparent,
+              size: 32,
+            ))
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ingilizce_app/pages/anasayfa.dart';
 import 'package:flutter_ingilizce_app/pages/kelimeler.dart';
 import 'package:flutter_ingilizce_app/pages/quiz.dart';
 import 'package:flutter_ingilizce_app/theme/MyTheme.dart';
@@ -19,7 +20,7 @@ class _RouteScreenState extends State<RouteScreen> {
     super.initState();
 
     _selectedPageIndex = 0;
-    _pages = [Kelimeler(), Quiz()];
+    _pages = [Anasayfa(), Kelimeler(), Quiz()];
     _pageController = PageController(initialPage: _selectedPageIndex);
   }
 
@@ -57,12 +58,12 @@ class _RouteScreenState extends State<RouteScreen> {
             });
           },
           items: <BottomNavyBarItem>[
-            /* BottomNavyBarItem(
+            BottomNavyBarItem(
               icon: Icon(Icons.home_rounded),
               title: Text('Anasayfa'),
-              activeColor: MyTheme.renkSiyah,
+              activeColor: MyTheme.renkBeyaz,
               textAlign: TextAlign.center,
-            ),*/
+            ),
             BottomNavyBarItem(
               icon: Icon(
                 Icons.menu_book_rounded,
