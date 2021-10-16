@@ -14,17 +14,25 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  //DatabaseHelper _databaseHelper = DatabaseHelper();
   List<KelimelerModel> tumList;
+  var secenekHelper = ["element1", "element2", "element3", "element4"];
+
   final _random = new Random();
   int soruIndex;
   int dogruCevapIndex;
   String dogruEN;
   String dogruTR;
+  String tempSecenek;
+  Color dogruRenk = MyTheme.renkAna;
+
+  @override
+  void initState() {
+    super.initState();
+    tumList = Provider.of<KelimelerProvider>(context, listen: false).kelimeList;
+  }
 
   @override
   Widget build(BuildContext context) {
-    tumList = Provider.of<KelimelerProvider>(context).kelimeList;
     soruIndex = _random.nextInt(tumList.length);
     dogruCevapIndex = _random.nextInt(4);
     dogruEN = tumList[soruIndex].en;
@@ -59,7 +67,6 @@ class _QuizState extends State<Quiz> {
                     children: [HeadlineForWidgets(text: dogruEN)],
                   ),
                 ),
-                // secenekGetir(context, "köpek"),
                 for (int i = 0; i < 4; i++)
                   if (i == dogruCevapIndex)
                     dogruTRGetir(context, dogruTR)
@@ -75,67 +82,84 @@ class _QuizState extends State<Quiz> {
     );
   }
 
-  Padding dogruTRGetir(BuildContext context, String dogruTR) {
-    return Padding(
-      padding: EdgeInsets.only(top: 14),
-      child: Container(
-        height: deviceHeight(context) * 0.09,
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-          borderRadius: MyTheme.myRadius,
-          color: MyTheme.renkAna,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
-              child: HeadlineForWidgets(
-                text: dogruTR,
-                myColor: MyTheme.renkBeyaz,
-              ),
-            )
-          ],
+  InkWell dogruTRGetir(BuildContext context, String dogruTR) {
+    return InkWell(
+      onTap: () {
+        setState(() {});
+      },
+      child: Padding(
+        padding: EdgeInsets.only(top: 14),
+        child: Container(
+          height: deviceHeight(context) * 0.09,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: MyTheme.myRadius,
+            color: dogruRenk,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
+                child: HeadlineForWidgets(
+                  text: dogruTR,
+                  myColor: MyTheme.renkBeyaz,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Padding secenekGetir(BuildContext context) {
-    /*String dogru = tumList.kelimeList[soruIndex].tr;
-    String rastgele =
-        tumList.kelimeList[_random.nextInt(tumList.kelimeList.length)].tr;*/
-    return Padding(
-      padding: EdgeInsets.only(top: 14),
-      child: Container(
-        height: deviceHeight(context) * 0.09,
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-          borderRadius: MyTheme.myRadius,
-          color: MyTheme.renkAna,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
-              child: HeadlineForWidgets(
-                text: rastgeleGetir(),
-                myColor: MyTheme.renkBeyaz,
-              ),
-            )
-          ],
+  InkWell secenekGetir(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: EdgeInsets.only(top: 14),
+        child: Container(
+          height: deviceHeight(context) * 0.09,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            borderRadius: MyTheme.myRadius,
+            color: MyTheme.renkAna,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: MyTheme.myPaddingOnly),
+                child: HeadlineForWidgets(
+                  text: rastgeleGetir(),
+                  myColor: MyTheme.renkBeyaz,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   rastgeleGetir() {
-    tumList.removeWhere((element) => element.en == dogruEN);
     String temp = tumList[_random.nextInt(tumList.length)].tr;
-    tumList.removeWhere((element) => element.tr == temp);
+    for (int i = 0; i < 100; i++) {
+      if (temp == dogruTR ||
+          temp == [secenekHelper.length - 1].toString() ||
+          temp == [secenekHelper.length - 2].toString() ||
+          temp == [secenekHelper.length - 3].toString() ||
+          temp == [secenekHelper.length - 4].toString()) {
+        temp = tumList[_random.nextInt(tumList.length)].tr;
+      } else {
+        break;
+      }
+    }
+    secenekHelper.add(temp);
     return temp;
   }
 
